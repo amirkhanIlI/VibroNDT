@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIBRO NDT // Портативный виброакустический экспресс-скрининг</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#0B0F19',
+              slate: '#0F172A',
+              card: '#1E293B',
+              cardLighter: '#26344A',
+              border: '#334155',
+              cyan: '#0EA5E9',
+              cyanGlow: '#38BDF8',
+              accent: '#38BDF8',
+              green: '#22C55E',
+              amber: '#F59E0B',
+              red: '#EF4444'
+            }
+          },
+          fontFamily: {
+            sans: ['Segoe UI', 'Inter', 'Roboto', 'sans-serif'],
+            mono: ['Consolas', 'Fira Code', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Custom glowing scrollbar and aesthetics */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0B0F19; }
+    ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0EA5E9; }
+
+    .glow-cyan {
+      box-shadow: 0 0 25px -5px rgba(14, 165, 233, 0.35);
+    }
+    .glow-card {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+    }
+    .grid-bg {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-brand-dark text-slate-100 font-sans antialiased selection:bg-brand-cyan selection:text-white">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/85 border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-brand-cyan to-indigo-500 flex items-center justify-center font-bold text-white shadow-lg shadow-brand-cyan/30">
+          <i data-lucide="activity" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-bold text-lg tracking-wider text-white">VIBRO <span class="text-brand-cyan">NDT</span></span>
+          <span class="hidden sm:inline-block ml-2 px-2 py-0.5 text-[10px] font-mono bg-emerald-950/60 text-emerald-400 border border-emerald-500/30 rounded-full">TRL 4 PROTOTYPE</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-6 text-sm font-medium text-slate-300">
+        <a href="#simulator" class="hover:text-brand-cyan transition-colors">Стенд-симулятор</a>
+        <a href="#triage" class="hover:text-brand-cyan transition-colors">Метод Triage</a>
+        <a href="#hardware" class="hover:text-brand-cyan transition-colors">Схемотехника & DSP</a>
+        <a href="#calculator" class="hover:text-brand-cyan transition-colors">Калькулятор ROI</a>
+        <a href="#specs" class="hover:text-brand-cyan transition-colors">Спецификации</a>
+      </nav>
+
+      <div class="flex items-center space-x-3">
+        <a href="#contact" class="px-4 py-2 text-xs sm:text-sm font-semibold rounded-lg bg-brand-cyan text-slate-900 hover:bg-brand-cyanGlow transition-all shadow-md shadow-brand-cyan/25 flex items-center space-x-1.5">
+          <span>Запросить пилот</span>
+          <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="relative pt-16 pb-20 overflow-hidden grid-bg">
+    <div class="absolute inset-0 bg-radial-gradient from-brand-cyan/10 via-transparent to-transparent pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center max-w-3xl mx-auto">
+        <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full border border-brand-cyan/30 bg-brand-cyan/10 text-brand-cyan text-xs font-semibold mb-6">
+          <i data-lucide="zap" class="w-3.5 h-3.5"></i>
+          <span>Научно-инженерный комплекс неразрушающего контроля</span>
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+          Оперативный виброакустический скрининг металлоконструкций <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-cyan-200">за 1 секунду</span>
+        </h1>
+        
+        <p class="mt-6 text-base sm:text-lg text-slate-400 leading-relaxed">
+          Закрываем экономический разрыв между отсутствием контроля и дорогостоящим сплошным УЗК. Технология активного отклика (Impact-Echo) и ансамблевого ML для экспресс-отбраковки 90%+ серийных деталей без контактного геля и зачистки.
+        </p>
+
+        <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#simulator" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-brand-cyan to-blue-600 text-white font-bold shadow-lg shadow-brand-cyan/30 hover:brightness-110 transition flex items-center justify-center space-x-2">
+            <i data-lucide="play" class="w-5 h-5"></i>
+            <span>Запустить симулятор в реальном времени</span>
+          </a>
+          <a href="#calculator" class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-brand-card border border-brand-border text-slate-200 font-semibold hover:bg-brand-cardLighter transition flex items-center justify-center space-x-2">
+            <i data-lucide="calculator" class="w-5 h-5 text-brand-cyan"></i>
+            <span>Рассчитать экономию для цеха</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Counters -->
+      <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-brand-card/70 border border-brand-border rounded-2xl p-5 glow-card">
+          <div class="text-brand-cyan font-mono text-3xl sm:text-4xl font-extrabold">22x</div>
+          <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-semibold">Ускорение инспекции</div>
+          <div class="text-[11px] text-slate-500 mt-1">7.5 ч вместо 166 ч на 1 000 узлов</div>
+        </div>
+
+        <div class="bg-brand-card/70 border border-brand-border rounded-2xl p-5 glow-card">
+          <div class="text-emerald-400 font-mono text-3xl sm:text-4xl font-extrabold">12 400 ₸</div>
+          <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-semibold">Себестоимость узла</div>
+          <div class="text-[11px] text-slate-500 mt-1">Минимальный барьер входа для бригады</div>
+        </div>
+
+        <div class="bg-brand-card/70 border border-brand-border rounded-2xl p-5 glow-card">
+          <div class="text-indigo-400 font-mono text-3xl sm:text-4xl font-extrabold">0.96</div>
+          <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-semibold">Macro-F1 Score</div>
+          <div class="text-[11px] text-slate-500 mt-1">Надежное натурное 3-классовое разделение</div>
+        </div>
+
+        <div class="bg-brand-card/70 border border-brand-border rounded-2xl p-5 glow-card">
+          <div class="text-amber-400 font-mono text-3xl sm:text-4xl font-extrabold">&lt; 105 мс</div>
+          <div class="text-xs uppercase tracking-wider text-slate-400 mt-1 font-semibold">Инференс алгоритма</div>
+          <div class="text-[11px] text-slate-500 mt-1">БПФ 1024 + Random Forest на ESP32-S3</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE SIMULATOR (KILLER FEATURE) -->
+  <section id="simulator" class="py-20 bg-brand-slate border-y border-brand-border relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase">Интерактивный физический стенд</span>
+        <h2 class="text-3xl font-extrabold text-white mt-2">Эмуляция метода Impact-Echo в браузере</h2>
+        <p class="text-slate-400 text-sm mt-3">
+          Выберите образец с дефектом или эталон, включите сглаживающее окно Ханна и нажмите кнопку импульса. Движок синтезирует акустический сигнал удара пружинного кернера и проводит полный DSP-анализ.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Controls Column -->
+        <div class="lg:col-span-4 bg-brand-card border border-brand-border rounded-2xl p-6 glow-card space-y-6">
+          <h3 class="text-base font-bold text-white flex items-center space-x-2">
+            <i data-lucide="sliders" class="w-4 h-4 text-brand-cyan"></i>
+            <span>Параметры эксперимента</span>
+          </h3>
+
+          <!-- Sample Selector -->
+          <div class="space-y-3">
+            <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Выбор образца балки (Ст3):</label>
+            
+            <label class="flex items-center justify-between p-3.5 rounded-xl border border-brand-border bg-brand-dark/50 hover:border-brand-cyan/60 cursor-pointer transition">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="sampleType" value="normal" checked class="text-brand-cyan focus:ring-brand-cyan">
+                <div>
+                  <div class="text-sm font-bold text-slate-200">Образец №1: Эталон «Норма»</div>
+                  <div class="text-xs text-slate-400">Цельная балка, монолитная жесткость</div>
+                </div>
+              </div>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+            </label>
+
+            <label class="flex items-center justify-between p-3.5 rounded-xl border border-brand-border bg-brand-dark/50 hover:border-rose-500/60 cursor-pointer transition">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="sampleType" value="crack" class="text-rose-500 focus:ring-rose-500">
+                <div>
+                  <div class="text-sm font-bold text-slate-200">Образец №2: Пропил 1.5 мм</div>
+                  <div class="text-xs text-slate-400">Падение жесткости EI, дребезг трещины</div>
+                </div>
+              </div>
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+            </label>
+
+            <label class="flex items-center justify-between p-3.5 rounded-xl border border-brand-border bg-brand-dark/50 hover:border-amber-500/60 cursor-pointer transition">
+              <div class="flex items-center space-x-3">
+                <input type="radio" name="sampleType" value="hole" class="text-amber-500 focus:ring-amber-500">
+                <div>
+                  <div class="text-sm font-bold text-slate-200">Образец №3: Отверстие Ø4.0 мм</div>
+                  <div class="text-xs text-slate-400">Высокочастотное рассеяние волн</div>
+                </div>
+              </div>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+            </label>
+          </div>
+
+          <!-- DSP Options -->
+          <div class="pt-4 border-t border-brand-border space-y-3">
+            <label class="text-xs font-semibold text-slate-300 uppercase tracking-wider block">Оконная фильтрация DSP:</label>
+            <label class="flex items-center space-x-3 p-3 rounded-xl bg-brand-dark/40 border border-brand-border cursor-pointer">
+              <input type="checkbox" id="chkHannToggle" checked class="rounded text-brand-cyan focus:ring-brand-cyan">
+              <div class="text-xs">
+                <span class="font-bold text-slate-200 block">Весовое окно Ханна (Hann Window)</span>
+                <span class="text-slate-400 text-[11px]">Подавление спектрального растекания (leakage)</span>
+              </div>
+            </label>
+          </div>
+
+          <!-- Trigger Button -->
+          <button id="btnTriggerPunch" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-cyan to-indigo-600 text-slate-900 font-extrabold text-sm uppercase tracking-wider shadow-lg shadow-brand-cyan/30 hover:brightness-110 active:scale-95 transition flex items-center justify-center space-x-2">
+            <i data-lucide="radio" class="w-5 h-5 text-slate-900"></i>
+            <span>Удар кернером (Impact)</span>
+          </button>
+        </div>
+
+        <!-- Canvas Visualizers & Verdict Column -->
+        <div class="lg:col-span-8 space-y-6">
+          
+          <!-- Verdict Panel -->
+          <div id="verdictBox" class="p-4 rounded-xl border border-emerald-500/50 bg-emerald-950/30 text-emerald-300 font-semibold flex flex-col sm:flex-row items-center justify-between gap-4 transition-all">
+            <div class="flex items-center space-x-3">
+              <i data-lucide="shield-check" class="w-6 h-6 shrink-0"></i>
+              <div>
+                <span class="text-[10px] uppercase font-mono tracking-wider block opacity-75">Вердикт Random Forest (100 деревьев):</span>
+                <span id="verdictText" class="text-base sm:text-lg font-bold">НОРМА (БЕЗДЕФЕКТНЫЙ УЗЕЛ)</span>
+              </div>
+            </div>
+            <div class="text-right">
+              <span class="text-xs font-mono block opacity-75">Достоверность модели:</span>
+              <span id="valConfidence" class="text-base font-bold font-mono">98.2%</span>
+            </div>
+          </div>
+
+          <!-- Waveform Canvas -->
+          <div class="bg-brand-card border border-brand-border rounded-2xl p-4 glow-card">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-xs font-mono font-semibold text-slate-300 flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
+                <span>Осциллограмма отклика x[n] (Time Domain, Fs = 10 кГц, N = 1024)</span>
+              </div>
+              <span class="text-[11px] font-mono text-slate-500">Длительность: 102.4 мс</span>
+            </div>
+            <div class="h-44 w-full bg-brand-dark rounded-xl overflow-hidden relative">
+              <canvas id="timeCanvas" class="w-full h-full block"></canvas>
+            </div>
+          </div>
+
+          <!-- Spectrum Canvas -->
+          <div class="bg-brand-card border border-brand-border rounded-2xl p-4 glow-card">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-xs font-mono font-semibold text-slate-300 flex items-center space-x-2">
+                <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+                <span>Спектр амплитуд БПФ |X_k| (Frequency Domain: 0 - 5 000 Гц)</span>
+              </div>
+              <div class="flex items-center space-x-3 text-[10px] font-mono">
+                <span class="text-yellow-400">● Центроид (C)</span>
+                <span class="text-fuchsia-400">● Спад 85% (R)</span>
+              </div>
+            </div>
+            <div class="h-48 w-full bg-brand-dark rounded-xl overflow-hidden relative">
+              <canvas id="freqCanvas" class="w-full h-full block"></canvas>
+            </div>
+          </div>
+
+          <!-- Real-time 3D Feature Vector Values -->
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-brand-card p-3 rounded-xl border border-brand-border text-center">
+              <div class="text-[10px] font-mono uppercase text-slate-400">Спектральный Центроид (C)</div>
+              <div id="valCentroid" class="text-base font-bold font-mono text-yellow-400 mt-0.5">3 120 Гц</div>
+            </div>
+            <div class="bg-brand-card p-3 rounded-xl border border-brand-border text-center">
+              <div class="text-[10px] font-mono uppercase text-slate-400">Спектральный Спад (R 85%)</div>
+              <div id="valRolloff" class="text-base font-bold font-mono text-fuchsia-400 mt-0.5">4 210 Гц</div>
+            </div>
+            <div class="bg-brand-card p-3 rounded-xl border border-brand-border text-center">
+              <div class="text-[10px] font-mono uppercase text-slate-400">Пересечения нуля (ZCR)</div>
+              <div id="valZcr" class="text-base font-bold font-mono text-brand-cyan mt-0.5">0.1120</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TWO-STAGE TRIAGE PARADIGM -->
+  <section id="triage" class="py-20 relative grid-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase">Производственная концепция</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Парадигма двухэтапного контроля (Triage)</h2>
+        <p class="text-slate-400 mt-4 text-base">
+          Мы не соревнуемся с тяжелым ультразвуком за микронное определение координат дефекта. Мы берем на себя 90% рутинной отбраковки, направляя дорогую лабораторию только туда, где есть реальная аномалия.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+        
+        <!-- Traditional NDT Card -->
+        <div class="bg-brand-card/90 border border-red-500/30 rounded-2xl p-7 glow-card flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-red-950/60 text-red-400 border border-red-500/40">Традиционный сплошной УЗК</span>
+              <i data-lucide="x-circle" class="w-6 h-6 text-red-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Экономическая избыточность на потоке</h3>
+            <ul class="space-y-3.5 text-sm text-slate-300">
+              <li class="flex items-start space-x-3">
+                <i data-lucide="clock" class="w-5 h-5 text-red-400 shrink-0 mt-0.5"></i>
+                <span><strong>10–15 минут</strong> на проверку одного типового узла.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="layers" class="w-5 h-5 text-red-400 shrink-0 mt-0.5"></i>
+                <span><strong>Трудоемкая подготовка:</strong> механическая зачистка от ржавчины, нанесение контактного геля, смыв.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="user-x" class="w-5 h-5 text-red-400 shrink-0 mt-0.5"></i>
+                <span><strong>Человеческий фактор:</strong> критическая зависимость от квалификации сертифицированного дефектоскописта.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400 shrink-0 mt-0.5"></i>
+                <span><strong>Итог:</strong> проверка 1 000 балок занимает свыше 166 рабочих часов и парализует монтаж.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-brand-border text-xs text-slate-400">
+            Оборудование: от 1.5 до 5+ млн ₸ за дефектоскоп
+          </div>
+        </div>
+
+        <!-- VIBRO NDT Card -->
+        <div class="bg-brand-card/90 border border-emerald-500/40 rounded-2xl p-7 glow-card flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full text-xs font-bold uppercase bg-emerald-950/60 text-emerald-300 border border-emerald-500/40">Концепция VIBRO NDT</span>
+              <i data-lucide="check-circle-2" class="w-6 h-6 text-emerald-400"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-4">Двухэтапная сортировка Triage</h3>
+            <ul class="space-y-3.5 text-sm text-slate-300">
+              <li class="flex items-start space-x-3">
+                <i data-lucide="zap" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span><strong>1 секунда</strong> на узел: прижал датчик, щелкнул кернером — мгновенный вердикт.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="sparkles" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span><strong>Сухой акустический контакт:</strong> не требует геля, зачистки поверхности и расходных материалов.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="cpu" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span><strong>Встроенный ИИ:</strong> ансамбль решающих деревьев автоматически принимает решение без участия оператора.</span>
+              </li>
+              <li class="flex items-start space-x-3">
+                <i data-lucide="trending-up" class="w-5 h-5 text-emerald-400 shrink-0 mt-0.5"></i>
+                <span><strong>Итог:</strong> ускорение контроля партии в <strong>22 раза</strong>. УЗК привлекается точечно лишь к ~8% подозрительных балок.</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-brand-border text-xs text-emerald-300 font-semibold">
+            Себестоимость прибора: ~12 400 ₸
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HARDWARE & DSP ARCHITECTURE -->
+  <section id="hardware" class="py-20 bg-brand-slate border-t border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase">Инженерная глубина</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Схемотехника аналогового тракта и DSP</h2>
+        <p class="text-slate-400 mt-4 text-base">
+          От фундаментальной физики упругих волн в металле до защиты кристалла ESP32-S3 от высоковольтного пьезо-звона.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Card 1 -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-border glow-card">
+          <div class="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan mb-5">
+            <i data-lucide="shield-alert" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Двухполярная защита АЦП</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">
+            Пьезодиск при соударении выдает пики до 20 В с отрицательной полуволной. Нами спроектирован тракт: резистор 1 МОм снимает статику, стабилитрон 3.3 В срезает пики, а диод Шоттки 1N5819 исключает latch-up сбой мультиплексора.
+          </p>
+          <div class="font-mono text-xs text-brand-cyan bg-brand-dark/50 p-2.5 rounded-lg border border-brand-border">
+            1MΩ || 3.3V Zener || 1N5819 Schottky
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-border glow-card">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-5">
+            <i data-lucide="binary" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">DSP и окно Ханна</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">
+            Буфер 1024 отсчета на частоте 10 кГц дает спектральное разрешение 9.77 Гц. Применение сглаживающего окна Ханна подавляет боковые лепестки спектрального растекания (leakage), повышая F1-метрику модели с 82.2% до 95.7%.
+          </p>
+          <div class="font-mono text-xs text-indigo-400 bg-brand-dark/50 p-2.5 rounded-lg border border-brand-border">
+            w[n] = 0.5 · (1 - cos(2πn / N))
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-border glow-card">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5">
+            <i data-lucide="git-merge" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">Ансамбль Random Forest</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">
+            100 решающих деревьев анализируют инвариантный 3D-вектор: Спектральный центроид (C), Спад 85% (R) и частоту пересечения нуля (ZCR). Полная объяснимость решений и компиляция в Си-код для автономного МК.
+          </p>
+          <div class="font-mono text-xs text-emerald-400 bg-brand-dark/50 p-2.5 rounded-lg border border-brand-border">
+            Vector(C, R, ZCR) ➔ EloquentML C++
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI CALCULATOR SECTION -->
+  <section id="calculator" class="py-20 relative grid-bg border-t border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase">B2B Калькулятор окупаемости</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Оцените прямую экономию вашего предприятия</h2>
+        <p class="text-slate-400 mt-4 text-base">
+          Передвиньте ползунки под реальные объемы вашего производства и узнайте, сколько часов и миллионов тенге сбережет переход на парадигму экспресс-скрининга VIBRO NDT.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Sliders Input Form -->
+        <div class="lg:col-span-6 bg-brand-card p-8 rounded-2xl border border-brand-border glow-card space-y-6">
+          
+          <!-- Slider 1: Nodes -->
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-sm font-semibold text-slate-300">Объем партии металлических узлов:</label>
+              <span id="lblNodesCount" class="font-mono text-brand-cyan font-bold">1 000 узлов</span>
+            </div>
+            <input type="range" id="inputNodesCount" min="100" max="10000" step="100" value="1000" class="w-full h-2 bg-brand-dark rounded-lg appearance-none cursor-pointer accent-brand-cyan">
+            <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+              <span>100 шт</span>
+              <span>5 000 шт</span>
+              <span>10 000 шт</span>
+            </div>
+          </div>
+
+          <!-- Slider 2: Hourly Rate -->
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-sm font-semibold text-slate-300">Ставка дефектоскописта с оборудованием:</label>
+              <span id="lblHourlyRate" class="font-mono text-brand-cyan font-bold">12 000 ₸/час</span>
+            </div>
+            <input type="range" id="inputHourlyRate" min="4000" max="30000" step="1000" value="12000" class="w-full h-2 bg-brand-dark rounded-lg appearance-none cursor-pointer accent-brand-cyan">
+            <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+              <span>4 000 ₸</span>
+              <span>15 000 ₸</span>
+              <span>30 000 ₸</span>
+            </div>
+          </div>
+
+          <!-- Slider 3: Expected Defect Rate -->
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-sm font-semibold text-slate-300">Ожидаемый процент реальных дефектов в партии:</label>
+              <span id="lblDefectRate" class="font-mono text-brand-cyan font-bold">8%</span>
+            </div>
+            <input type="range" id="inputDefectRate" min="2" max="30" step="1" value="8" class="w-full h-2 bg-brand-dark rounded-lg appearance-none cursor-pointer accent-brand-cyan">
+            <div class="flex justify-between text-[11px] text-slate-500 mt-1">
+              <span>2% (высокое качество)</span>
+              <span>15%</span>
+              <span>30% (повышенный брак)</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Results Display Box -->
+        <div class="lg:col-span-6 bg-gradient-to-br from-brand-card to-slate-900 p-8 rounded-2xl border border-brand-cyan/40 glow-cyan space-y-6">
+          <div class="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase">Итоги экономической эффективности:</div>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div class="p-4 rounded-xl bg-brand-dark/60 border border-brand-border">
+              <span class="text-xs text-slate-400 block">Сэкономлено времени:</span>
+              <span id="resHoursSaved" class="text-2xl sm:text-3xl font-extrabold font-mono text-white mt-1 block">142 ч</span>
+              <span class="text-[11px] text-slate-500">Ускорение в <span id="resSpeedupRatio" class="text-brand-cyan font-bold">7.1x</span></span>
+            </div>
+
+            <div class="p-4 rounded-xl bg-brand-dark/60 border border-emerald-500/30">
+              <span class="text-xs text-slate-400 block">Прямая чистая экономия:</span>
+              <span id="resMoneySaved" class="text-2xl sm:text-3xl font-extrabold font-mono text-emerald-400 mt-1 block">1 750 000 ₸</span>
+              <span class="text-[11px] text-slate-500">Окупаемость стенда: <span id="resPayback" class="text-emerald-400 font-bold">0.2 дн.</span></span>
+            </div>
+          </div>
+
+          <!-- Comparison Bar Table -->
+          <div class="space-y-3 pt-2 text-xs">
+            <div class="flex justify-between text-slate-300">
+              <span>Традиционный 100% УЗК:</span>
+              <span id="resHoursTrad" class="font-mono font-bold text-red-400">167 ч</span>
+              <span id="resCostTrad" class="font-mono font-bold text-red-400">2 350 000 ₸</span>
+            </div>
+            <div class="w-full bg-brand-dark rounded-full h-2 overflow-hidden">
+              <div class="bg-red-500 h-2 rounded-full w-full"></div>
+            </div>
+
+            <div class="flex justify-between text-slate-300 pt-2">
+              <span>VIBRO NDT двухэтапный Triage:</span>
+              <span id="resHoursVibro" class="font-mono font-bold text-emerald-400">24 ч</span>
+              <span id="resCostVibro" class="font-mono font-bold text-emerald-400">600 000 ₸</span>
+            </div>
+            <div class="w-full bg-brand-dark rounded-full h-2 overflow-hidden">
+              <div class="bg-emerald-400 h-2 rounded-full w-[15%]"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECS & ROADMAP -->
+  <section id="specs" class="py-20 bg-brand-slate border-t border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-mono font-bold tracking-widest text-brand-cyan uppercase">Техническая спецификация</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Параметры комплекса и статус TRL</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Specs Table -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-border glow-card">
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+            <i data-lucide="cpu" class="w-5 h-5 text-brand-cyan"></i>
+            <span>Аппаратно-программные параметры</span>
+          </h3>
+          <div class="divide-y divide-brand-border text-xs sm:text-sm">
+            <div class="py-2.5 flex justify-between">
+              <span class="text-slate-400">Вычислительное ядро:</span>
+              <span class="font-mono text-slate-200">ESP32-S3 (Dual-Core Xtensa LX7 @ 240 MHz)</span>
+            </div>
+            <div class="py-2.5 flex justify-between">
+              <span class="text-slate-400">Частота дискретизации АЦП:</span>
+              <span class="font-mono text-slate-200">10 000 Гц (SAR ADC)</span>
+            </div>
+            <div class="py-2.5 flex justify-between">
+              <span class="text-slate-400">Размерность фрейма / буфер:</span>
+              <span class="font-mono text-slate-200">1024 отсчета (102.4 мс кадр)</span>
+            </div>
+            <div class="py-2.5 flex justify-between">
+              <span class="text-slate-400">Разрешение по частоте (БПФ):</span>
+              <span class="font-mono text-slate-200">9.77 Гц на бин (512 бинов)</span>
+            </div>
+            <div class="py-2.5 flex justify-between">
+              <span class="text-slate-400">Оконная фильтрация:</span>
+              <span class="font-mono text-slate-200">Окно Ханна (подавление лепестков до -31.5 дБ)</span>
+            </div>
+            <div class="py-2.5 flex justify-between">
+              <span class="text-slate-400">Архитектура классификатора:</span>
+              <span class="font-mono text-slate-200">Random Forest (100 деревьев, max_depth = 10)</span>
+            </div>
+            <div class="py-2.5 flex justify-between">
+              <span class="text-slate-400">Точность классификации:</span>
+              <span class="font-mono text-emerald-400 font-bold">Macro F1 = 0.96 (Recall по дефектам 94%+)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Roadmap -->
+        <div class="bg-brand-card p-6 rounded-2xl border border-brand-border glow-card">
+          <h3 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+            <i data-lucide="milestone" class="w-5 h-5 text-indigo-400"></i>
+            <span>Дорожная карта TRL (Technology Readiness Level)</span>
+          </h3>
+          <div class="space-y-4">
+            
+            <div class="p-3.5 rounded-xl border border-brand-cyan/40 bg-brand-dark/60">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-brand-cyan">TRL 4: Лабораторный прототип (Текущий статус)</span>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/20 text-emerald-300 font-mono">Выполнено</span>
+              </div>
+              <p class="text-xs text-slate-400">Собран стенд с калиброванным пружинным кернером и защитным каскадом. Верифицирован на стальных заготовках Ст3.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-brand-border bg-brand-dark/40">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-slate-200">TRL 5: Полевой пилот на объекте (Q1 2027)</span>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300 font-mono">В процессе</span>
+              </div>
+              <p class="text-xs text-slate-400">Тестирование на серийных строительных металлоконструкциях и трубопроводах реальных цехов.</p>
+            </div>
+
+            <div class="p-3.5 rounded-xl border border-brand-border bg-brand-dark/40">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-xs font-bold text-slate-200">TRL 6: Серийный монолитный щуп (Q2 2027)</span>
+                <span class="px-2 py-0.5 rounded text-[10px] bg-slate-700 text-slate-300 font-mono">План</span>
+              </div>
+              <p class="text-xs text-slate-400">Векторные инструкции SIMD ядра Xtensa LX7, опрос АЦП через I2S DMA, эргономичный корпус IP67 со встроенным дисплеем.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / CONTACT FORM -->
+  <section id="contact" class="py-20 relative grid-bg border-t border-brand-border">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-b from-brand-card to-brand-dark border border-brand-cyan/30 rounded-3xl p-8 sm:p-12 glow-card text-center">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white">Готовы провести пилотное тестирование на ваших образцах?</h2>
+        <p class="text-slate-400 text-sm sm:text-base mt-4 max-w-xl mx-auto">
+          Оставьте заявку на выездную демонстрацию лабораторного комплекса или получение инженерного whitepaper с протоколом испытаний.
+        </p>
+
+        <form class="mt-8 max-w-md mx-auto space-y-4 text-left" onsubmit="event.preventDefault(); alert('Спасибо! Заявка на демонстрацию VIBRO NDT принята. Инженер свяжется с вами в течение 24 часов.');">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Имя / Компания:</label>
+            <input type="text" required placeholder="ТОО 'ПромСтройМонтаж'" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-brand-cyan">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Email или телефон:</label>
+            <input type="text" required placeholder="engineer@promstroy.kz" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-brand-cyan">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase mb-1">Тип контролируемых конструкций:</label>
+            <input type="text" placeholder="Двутавровые балки, сварные узлы, трубы" class="w-full px-4 py-3 rounded-xl bg-brand-dark border border-brand-border text-white text-sm focus:outline-none focus:border-brand-cyan">
+          </div>
+          <button type="submit" class="w-full py-4 rounded-xl bg-brand-cyan text-slate-900 font-extrabold text-sm uppercase tracking-wider shadow-lg shadow-brand-cyan/30 hover:bg-brand-cyanGlow transition">
+            Запросить демонстрационный стенд
+          </button>
+        </form>
+
+        <div class="mt-8 pt-6 border-t border-brand-border flex items-center justify-center space-x-6 text-xs text-slate-400">
+          <span class="flex items-center space-x-1"><i data-lucide="file-check" class="w-4 h-4 text-brand-cyan"></i><span>Whitepaper доступен</span></span>
+          <span class="flex items-center space-x-1"><i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i><span>NDA по запросу</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-8 bg-brand-dark border-t border-brand-border text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-2">
+        <span class="font-bold text-slate-300">VIBRO NDT Project</span>
+        <span>© 2026. Разработано для научно-инженерных соревнований (РКНП / ISEF).</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <span>DSP & Embedded Machine Learning</span>
+        <span>•</span>
+        <span>ESP32-S3 Platform</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="simulator.js"></script>
+  <script src="calculator.js"></script>
+  <script>
+    // Initialize icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>
